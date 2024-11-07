@@ -1,4 +1,5 @@
-﻿using Company.Data.Models;
+﻿using Company.Data.Contexts;
+using Company.Data.Models;
 using Company.Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,29 +11,25 @@ namespace Company.Repository.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository
     {
-        public void Add(Employee employee)
+        private readonly CompanyDbContext _context;
+
+        public EmployeeRepository(CompanyDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
+        public void Add(Employee employee)
+        => _context.Add(employee);
 
         public void Delete(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+        => _context.Remove(employee);
 
         public IEnumerable<Employee> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        => _context.Employees.ToList();
 
         public Employee GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        => _context.Employees.FirstOrDefault(x => x.Id == id);
 
         public void Update(Employee employee)
-        {
-            throw new NotImplementedException();
-        }
+        => _context.Update(employee);
     }
 }
