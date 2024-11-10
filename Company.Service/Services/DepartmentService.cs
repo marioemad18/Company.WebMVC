@@ -17,19 +17,19 @@ namespace Company.Service.Services
         {
             _departmentRepository = departmentRepository;
         }
-        public void Add(Department employee)
+        public void Add(Department entity)
         {
-            _departmentRepository.Add(employee);
+            _departmentRepository.Add(entity);
         }
 
-        public void Delete(Department employee)
+        public void Delete(Department entity)
         {
-           _departmentRepository.Delete(employee);
+           _departmentRepository.Delete(entity);
         }
 
         public IEnumerable<Department> GetAll()
         {
-            var dept = _departmentRepository.GetAll();
+            var dept = _departmentRepository.GetAll().Where(x=>x.IsDeleted != true);
             return dept;
         }
 
