@@ -1,4 +1,4 @@
-﻿
+﻿@using Company.Data.Models;
 @model IEnumerable<Department>
 <a asp-asp-controller="Department" asp-action="Create" class="btn btn-primary">Create New Department</a>
 
@@ -37,7 +37,7 @@
             </a>
             </td> 
 
-                    <partial name="_ActionButtonsPartialView" model="@deparment.Id.ToString()" />
+                   
                 </tr>
             }
 
