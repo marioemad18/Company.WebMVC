@@ -47,9 +47,20 @@ namespace Company.Service.Services
             return dept;
         }
 
-        public void Update(Department employee)
+        public void Update(Department entity)
         {
-            throw new NotImplementedException();
+            var dept = GetById(entity.Id);
+            if (dept.Name != entity.Name)
+            {
+                if (GetAll().Any(x => x.Name == entity.Name)) 
+                {
+                    throw new Exception("DublicatedDepartmentsName");
+                }
+            }
+            dept.Name = entity.Name;
+            dept.Code = entity.Code;
+
+            _departmentRepository.Update(dept);
         }
     }
 }
