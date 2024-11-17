@@ -11,25 +11,32 @@ namespace Company.Service.Services
 {
     public class DepartmentService : IDepartmentService
     {
-        private readonly IDepartmentRepository _departmentRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DepartmentService(IDepartmentRepository departmentRepository) 
+        public DepartmentService(IUnitOfWork unitOfWork) 
         {
-            _departmentRepository = departmentRepository;
+            _unitOfWork = unitOfWork;
         }
-        public void Add(Department employee)
+        public void Add(Department entity)
         {
-            _departmentRepository.Add(employee);
+            var MappedDepartment = new Department
+            {
+                Code = entity.Code,
+                Name = entity.Name,
+                CreatedAt = DateTime.Now
+            };
+            _unitOfWork.departmentRepository.Add(MappedDepartment);
+            _unitOfWork.Complete();
         }
 
-        public void Delete(Department employee)
+        public void Delete(Department entity)
         {
-           _departmentRepository.Delete(employee);
+          _unitOfWork.departmentRepository.Delete(entity);
         }
 
         public IEnumerable<Department> GetAll()
         {
-            var dept = _departmentRepository.GetAll();
+            var dept = _unitOfWork.departmentRepository.GetAll().Where(x=>x.IsDeleted != true);
             return dept;
         }
 
@@ -39,7 +46,7 @@ namespace Company.Service.Services
             {
                 return null;
             }
-            var dept = _departmentRepository.GetById(id.Value);
+            var dept = _unitOfWork.departmentRepository.GetById(id.Value);
             if(dept is null)
             {
                 return null;
@@ -47,9 +54,21 @@ namespace Company.Service.Services
             return dept;
         }
 
-        public void Update(Department employee)
+        public void Update(Department entity)
         {
-            throw new NotImplementedException();
+            var dept = GetById(entity.Id);
+            if (dept.Name != entity.Name)
+            {
+                if (GetAll().Any(x => x.Name == entity.Name)) 
+                {
+                    throw new Exception("DublicatedDepartmentsName");
+                }
+            }
+            dept.Name = entity.Name;
+            dept.Code = entity.Code;
+
+            _unitOfWork.departmentRepository.Update(dept);
+            _unitOfWork.Complete();
         }
     }
 }
