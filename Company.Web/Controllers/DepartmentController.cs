@@ -55,7 +55,7 @@ namespace Company.Web.Controllers
 
             return View(viewname,dept);
         }
-        [HttpGet]
+       /* [HttpGet]
         public IActionResult Update(int? id)
         {
             return Details(id, "Update");
@@ -70,9 +70,9 @@ namespace Company.Web.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-
+       */
         //[HttpPost]
-        public IActionResult Delete(int id)
+      /*  public IActionResult Delete(int id)
         {
             var dept = _departmentService.GetById(id);
             if(dept is null)
@@ -82,6 +82,6 @@ namespace Company.Web.Controllers
             _departmentService.Update(dept);
             //_departmentService.Delete(dept);
             return RedirectToAction(nameof(Index));
-        }
+        }*/
     }
 }

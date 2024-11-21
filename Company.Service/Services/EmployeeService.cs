@@ -2,6 +2,7 @@
 using Company.Data.Models;
 using Company.Repository.Interfaces;
 using Company.Service.Dto;
+using Company.Service.Helper;
 using Company.Service.Interfaces;
 using System;
 using System.Collections;
@@ -25,18 +26,19 @@ namespace Company.Service.Services
         public void Add(EmployeeDto entityDto)
         {
             //Manual Mapping
-           /* Employee employee = new Employee
-            {
-                Address = entityDto.Address,
-                Age = entityDto.Age,
-                DepartmentId = entityDto.DepartmentId,
-                Email = entityDto.Email,
-                HiringDate = entityDto.HiringDate,
-                ImageUrl= entityDto.ImageUrl,
-                Name = entityDto.Name,
-                PhoneNumber = entityDto.PhoneNumber,
-                Salary = entityDto.Salary
-            };*/
+            /* Employee employee = new Employee
+             {
+                 Address = entityDto.Address,
+                 Age = entityDto.Age,
+                 DepartmentId = entityDto.DepartmentId,
+                 Email = entityDto.Email,
+                 HiringDate = entityDto.HiringDate,
+                 ImageUrl= entityDto.ImageUrl,
+                 Name = entityDto.Name,
+                 PhoneNumber = entityDto.PhoneNumber,
+                 Salary = entityDto.Salary
+             };*/
+            entityDto.ImageUrl = DocumentSettings.UploadFile(entityDto.Image, "Images");
             Employee employee = _mapper.Map<Employee>(entityDto);
             _unitOfWork.employeeRepository.Add(employee);
             _unitOfWork.Complete();
