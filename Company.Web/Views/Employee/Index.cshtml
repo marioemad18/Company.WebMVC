@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Employee>
+﻿@model IEnumerable<EmployeeDto>
 
 <h1>All Employees</h1>
 <br />
@@ -53,7 +53,7 @@
                     <td>@Employee.PhoneNumber</td>
                     <td>@Employee.HiringDate</td>
 
-                    <partial name="_ActionButtonsPartialView" model="@Employee.Id.ToString()" />
+                    <partial name="_ActionButtonsPartialView" model="@Employee.DepartmentId.ToString()" />
                 </tr>
             }
 
